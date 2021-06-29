@@ -3,7 +3,12 @@ const express = require('express')
 const app = express()
 
 app.get("/", function (request, res) {
-  const url = "https://api.openweathermap.org/data/2.5/weather?q=london&appid=7a2c0c8ca6f285d85a21f43ecc92f829&units=metric"
+
+  res.sendFile(__dirname + "/index.html")
+  const query = "London"
+  const apiKey = "7a2c0c8ca6f285d85a21f43ecc92f829"
+  const units = "metric"
+  const url = "https://api.openweathermap.org/data/2.5/weather?q=" + query + "&appid=" + apiKey + "&units=" + units
   https.get(url, function (response) {
     console.log(response.statusCode)
     response.on("data", function (data) {
