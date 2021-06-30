@@ -1,11 +1,18 @@
 const https = require('https');
 const express = require('express')
 const app = express()
+const bodyParser = require(`body-parser`)
 
+app.use(express.urlencoded({ extended: true }));
 app.get("/", function (request, res) {
 
   res.sendFile(__dirname + "/index.html")
-  const query = "London"
+})
+app.post("/", function (req, res) {
+
+  console.log("post request recived")
+
+  const query = req.body.cityName
   const apiKey = "7a2c0c8ca6f285d85a21f43ecc92f829"
   const units = "metric"
   const url = "https://api.openweathermap.org/data/2.5/weather?q=" + query + "&appid=" + apiKey + "&units=" + units
@@ -19,13 +26,16 @@ app.get("/", function (request, res) {
       const imageUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png"
       console.log(weatherDescription)
       res.write("<p>The weather is currently " + weatherDescription + "</p>")
-      res.write("<h1> The temperature is " + temp + " degrees Celcius. </h1>")
+      res.write("<h1> The temperature in " + query + " is " + temp + " degrees Celcius. </h1>")
       res.write("<img src=" + imageUrl + " />")
       res.send()
     })
   })
-  // response.send("server is up and running")
 })
+
+
+// response.send("server is up and running")
+
 
 
 app.listen(3000, () => {
